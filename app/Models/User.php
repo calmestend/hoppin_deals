@@ -47,4 +47,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function determineDefaultRoute()
+    {
+        return match((int) $this->role_id) {
+            1 => 'client.dashboard',
+            2 => 'admin.dashboard',
+            default => '/'
+        };
+    }
 }

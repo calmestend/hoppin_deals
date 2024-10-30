@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,16 +20,22 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'client']);
         Role::create(['name' => 'admin']);
 
+        // Client User -> user_id = 1
         User::factory()->create([
             'name' => 'Client User',
             'email' => 'client@example.com',
+            'password' => bcrypt('password'),
             'role_id' => 1
         ]);
 
+        // Admin User -> user_id = 2
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
             'role_id' => 2
         ]);
+
+        Admin::create(['user_id' => 2]);
     }
 }
