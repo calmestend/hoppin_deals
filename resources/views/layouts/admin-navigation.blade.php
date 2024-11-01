@@ -25,10 +25,17 @@
                     </x-nav-link>
                 </div>
 
-                <!-- Users -->
+                <!-- Branches -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.branches')" :active="request()->routeIs('admin.branches')">
                         {{ __('Branches') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Branches -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')">
+                        {{ __('Categories') }}
                     </x-nav-link>
                 </div>
 
@@ -106,6 +113,13 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.branches')" :active="request()->routeIs('admin.branches')">
                 {{ __('Branches') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <!-- Categories Responsive -->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')">
+                {{ __('Categories') }}
             </x-responsive-nav-link>
         </div>
 

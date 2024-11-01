@@ -66,7 +66,7 @@ class BranchController extends Controller
             'address_id' => $address->id,
         ]);
 
-        return redirect(route("admin.dashboard", absolute: false));
+        return redirect(route("admin.branches", absolute: false));
     }
 
     /**
