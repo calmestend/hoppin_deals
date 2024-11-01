@@ -25,6 +25,13 @@
                     </x-nav-link>
                 </div>
 
+                <!-- Users -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.branches')" :active="request()->routeIs('admin.branches')">
+                        {{ __('Branches') }}
+                    </x-nav-link>
+                </div>
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -88,9 +95,17 @@
             </x-responsive-nav-link>
         </div>
 
+        <!-- User Responsive -->
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
                 {{ __('Users') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <!-- Branches Responsive -->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('admin.branches')" :active="request()->routeIs('admin.branches')">
+                {{ __('Branches') }}
             </x-responsive-nav-link>
         </div>
 
