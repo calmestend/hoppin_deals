@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredAdminController;
+use App\Http\Controllers\Auth\RegisteredClientController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('admin/dashboard', function () {
         return view('layouts.admin.dashboard');
     })->name('admin.dashboard');
@@ -16,8 +17,11 @@ Route::middleware('auth')->group(function () {
         return view('layouts.admin.users');
     })->name('admin.users');
 
-    Route::get('admin/users/admin-register', [RegisteredAdminController::class, 'create'])->name('admin.users.register-admin');
+    Route::get('admin/users/admin-register', [RegisteredAdminController::class, 'create'])->name('admin.users.register.admin');
     Route::post('admin/users/admin-register', [RegisteredAdminController::class, 'store'])->name('admin.register');
+
+    Route::get('admin/users/client-register', [RegisteredClientController::class, 'create'])->name('admin.users.register.client');
+    Route::post('admin/users/client-register', [RegisteredClientController::class, 'store'])->name('client.register');
 
     // Branches
     Route::get('admin/branches/', [BranchController::class, 'index'])->name('admin.branches');

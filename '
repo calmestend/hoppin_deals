@@ -13,8 +13,8 @@ return new class () extends Migration {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('address_id')->nullable()->constrained();
-            $table->string('rfc')->nullable();
+            $table->foreignId('address_id')->constrained()->nullable()->default(null);
+            $table->string('rfc')->nullable()->default(null);
             $table->timestamps();
         });
     }

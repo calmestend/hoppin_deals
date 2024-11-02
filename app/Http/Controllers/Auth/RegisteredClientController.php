@@ -13,19 +13,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-// TODO: Check if the user is logged or not, by this way we can delete 2 functions
 class RegisteredClientController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function createByAdmin(): View
-    {
-        return view("auth.client-register");
-    }
-
     public function create(): View
     {
+        if (Auth::user() && Auth::user()->role_id === 2) {
+            return view("auth.client-register");
+        }
         return view('auth.register');
     }
 
@@ -36,38 +33,18 @@ class RegisteredClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            "name" => ["required", "string", "max:255"],
-            "email" => [
-                "required",
-                "string",
-                "lowercase",
-                "email",
-                "max:255",
-                "unique:" . User::class,
-            ],
-            "password" => ["required", "confirmed", Rules\Password::defaults()],
-        ]);
+        $this->validateRequest($request);
 
-        $user = User::create([
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => Hash::make($request->password),
-            "role_id" => 1
-        ]);
+        $user = $this->createUser($request);
 
-        Client::create([
-            "user_id" => $user->id,
-        ]);
-
-        event(new Registered($user));
-
+        if (Auth::user() && Auth::user()->role_id === 2) {
+            return redirect()->route("admin.users");
+        }
         Auth::login($user);
-
-        return redirect(route("client.dashboard", absolute: false));
+        return redirect()->route("client.dashboard");
     }
 
-    public function storeByAdmin(Request $request): RedirectResponse
+    private function validateRequest(Request $request): void
     {
         $request->validate([
             "name" => ["required", "string", "max:255"],
@@ -81,20 +58,23 @@ class RegisteredClientController extends Controller
             ],
             "password" => ["required", "confirmed", Rules\Password::defaults()],
         ]);
+    }
 
+    private function createUser(Request $request): User
+    {
         $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
             "password" => Hash::make($request->password),
-            "role_id" => 1
+            "role_id" => 1,
         ]);
 
         Client::create([
-            "user_id" => $user->id,
+            "user_id" => $user->id
         ]);
 
         event(new Registered($user));
 
-        return redirect(route("admin.users", absolute: false));
+        return $user;
     }
 }
