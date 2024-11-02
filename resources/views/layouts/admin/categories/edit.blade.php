@@ -21,7 +21,7 @@
 
                         <div class="flex items-center justify-end mt-4">
                             <button
-                                class="shadow shadow-lg hover:shadow-xl bg-violet-600 transition hover:ease-in-out  hover:shadow-violet-200 shadow-violet-100 hover:scale-105 hover:bg-violet-700 duration-225 px-4 py-2 rounded-md text-white">
+                                class="shadow shadow-lg hover:shadow-xl bg-purple-500 transition hover:ease-in-out  hover:shadow-purple-200 shadow-purple-100 hover:scale-105 hover:bg-purple-600 duration-225 px-4 py-2 rounded-md text-white">
                                 Update Category
                             </button>
                         </div>

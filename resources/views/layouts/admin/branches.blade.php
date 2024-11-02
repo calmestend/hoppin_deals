@@ -53,7 +53,7 @@
                                             State
                                         </th>
                                         <th
-                                            class="px-4 py-2 border-violet-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-left">
+                                            class="px-4 py-2 border-violet-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-left rounded-r-md">
                                         </th>
                                     </tr>
                                 </thead>

@@ -13,4 +13,9 @@ class Address extends Model
         'number',
         'city_id',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }
