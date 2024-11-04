@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishListProductController;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,9 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 
     Route::get('client/shopping_cart', [ShoppingCartController::class, 'index'])->name('client.shopping_cart');
     Route::post('client/shopping_cart', [ShoppingCartController::class, 'store'])->name('client.shopping_cart.store');
+    Route::post('client/shopping_cart/{stock_id}', [ShoppingCartController::class, 'destroy'])->name('client.shopping_cart.destroy');
+
+    Route::get('client/checkout', [PaypalController::class, 'index'])->name('client.checkout');
+    Route::get('paypal/complete/{amount}', [PaypalController::class, 'create'])->name('client.checkout.create');
+    Route::post('client/checkout/complete', [PaypalController::class, 'complete'])->name('client.checkout.complete');
 });

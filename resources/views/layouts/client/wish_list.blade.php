@@ -60,4 +60,4 @@
             </div>
         </div>
     </div>
-    </x-client-layouo>
+</x-client-layout>

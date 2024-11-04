@@ -13,6 +13,7 @@ class ShoppingCartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
+        $total = 0;
         $cartItems = [];
         foreach ($cart as $stockId => $item) {
             $stock = Stock::findOrFail($stockId);
@@ -21,8 +22,23 @@ class ShoppingCartController extends Controller
                 'quantity' => $item['quantity'],
                 'subtotal' => $stock->product->price * $item['quantity']
             ];
+            $total += $stock->product->price * $item['quantity'];
         };
-        return view('layouts.client.shopping_cart', compact(['cart', 'cartItems']));
+        return view('layouts.client.shopping_cart', compact(['cart', 'cartItems', 'total']));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $stock_id)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$stock_id])) {
+            unset($cart[$stock_id]);
+            session()->put('cart', $cart);
+        }
+
+        return redirect()->back()->with('message', 'Product removed successfully');
     }
 
     /**
@@ -90,11 +106,4 @@ class ShoppingCartController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

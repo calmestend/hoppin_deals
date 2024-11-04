@@ -10,6 +10,7 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h1 class="text-2xl font-bold text-pink-600 mb-4">Wish List</h1>
 
+                @if($cartItems)
                 <table class="min-w-full bg-white">
                     <thead>
                         <tr>
@@ -33,6 +34,14 @@
                             <td class="py-2 px-4 border-b">{{ $item['quantity'] }}</td>
                             <td class="py-2 px-4 border-b">{{ $item['subtotal'] }}</td>
                             <td class="py-2 px-4 border-b">
+                                <form method="post"
+                                    action="{{ route('client.shopping_cart.destroy', ['stock_id' => $item['stock']->id]) }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="transition ease-in-out bg-violet-300 hover:scale-105 hover:bg-violet-500 duration-225 px-4 py-2 rounded-md text-white">
+                                        Remove
+                                    </button>
+                                </form>
                             </td>
                             <td class="py-2 px-4 border-b">
                             </td>
@@ -40,6 +49,18 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pt-6">
+                    <p class="pb-4">Total: ${{ $total }}</p>
+                    <form method="get" action="{{ route('client.checkout') }}">
+                        <button type="submit"
+                            class="transition ease-in-out bg-violet-300 hover:scale-105 hover:bg-violet-500 duration-225 px-4 py-2 rounded-md text-white">
+                            Buy Now
+                        </button>
+                    </form>
+                </div>
+                @else
+                <h1>Shopping Cart Empty</h1>
+                @endif
                 @if(session('message'))
                 <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg mb-4">
                     {{ session('message') }}
@@ -48,4 +69,4 @@
             </div>
         </div>
     </div>
-    </x-client-layouo>
+</x-client-layout>

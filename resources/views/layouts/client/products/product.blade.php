@@ -32,13 +32,16 @@
                         </button>
                     </form>
 
-                    <form method="POST">
+                    <form method="POST" action="{{ route('client.shopping_cart.store') }}">
                         @csrf
                         <input type="hidden" name="stock_id" value="{{ $stock->id }}">
+                        <input type="hidden" name="quantity" value="1">
                         <button type="submit"
-                            class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition duration-300">
+                            class="transition ease-in-out bg-violet-300 hover:scale-105 hover:bg-violet-500 duration-225 px-4 py-2 rounded-md text-white">
                             Add to Shopping Cart
                         </button>
+                        <x-input-error :messages="$errors->get('stock_id')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
                     </form>
                 </div>
             </div>
