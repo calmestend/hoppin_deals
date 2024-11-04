@@ -35,17 +35,22 @@ class ProductController extends Controller
             "category_id" => [ "required" ],
             "name" => [ "required", "string", "max:255"  ],
             "description" => [ "required", "string", "max:255" ],
+            "thumb" => ['required', 'image'],
             "cost" => [ "required", "integer", "max:99999", "min:1" ],
             "price" => [ "required", "integer", "max:99999", "min:1" ],
         ]);
 
-        Product::create([
+
+        $product  = Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'description' => $request->description,
             'cost' => $request->cost,
             'price' => $request->price,
         ]);
+
+        $productMedia = Product::find($product->id);
+        $productMedia->addMediaFromRequest('thumb')->toMediaCollection('thumb');
 
         return redirect(route("admin.products", absolute: false));
     }
@@ -75,6 +80,11 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->update($request->only(['category_id', 'name', 'description', 'cost', 'price']));
+
+        if ($request->hasFile('thumb') && $product->hasMedia('thumb')) {
+            $product->clearMediaCollection('thumb');
+            $product->addMediaFromRequest('thumb')->toMediaCollection('thumb');
+        }
 
         return redirect()->route('admin.products');
     }

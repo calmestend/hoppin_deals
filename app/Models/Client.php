@@ -11,4 +11,15 @@ class Client extends Model
         'address_id',
         'rfc'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    public function wish_list()
+    {
+        return $this->hasOne(WishList::class);
+    }
 }

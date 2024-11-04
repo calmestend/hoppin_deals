@@ -11,11 +11,29 @@
                 </div>
 
                 <!-- Navigation Links -->
+
+                <!-- Dashboard -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Wish List -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('client.wishlist')" :active="request()->routeIs('client.wishlist')">
+                        {{ __('Wish List') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Shopping Cart -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('client.shopping_cart')"
+                        :active="request()->routeIs('client.shopping_cart')">
+                        {{ __('Shopping Cart') }}
+                    </x-nav-link>
+                </div>
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -73,11 +91,29 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+
+        <!-- Responsive Dashboard -->
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('client.dashboard')" :active="request()->routeIs('client.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+
+        <!-- Responsive Wish List -->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('client.wishlist')" :active="request()->routeIs('client.wishlist')">
+                {{ __('Wish List') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <!-- Responsive Shopping Cart -->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('client.shopping_cart')"
+                :active="request()->routeIs('client.shopping_cart')">
+                {{ __('Shopping Cart') }}
+            </x-responsive-nav-link>
+        </div>
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

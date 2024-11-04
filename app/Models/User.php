@@ -56,4 +56,9 @@ class User extends Authenticatable
             default => '/'
         };
     }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
 }

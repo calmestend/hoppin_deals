@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\WishList;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,8 +70,12 @@ class RegisteredClientController extends Controller
             "role_id" => 1,
         ]);
 
-        Client::create([
+        $client = Client::create([
             "user_id" => $user->id
+        ]);
+
+        WishList::create([
+            "client_id" => $client->id
         ]);
 
         event(new Registered($user));

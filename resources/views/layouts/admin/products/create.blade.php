@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('admin.products.store') }}">
+                    <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
                         @csrf
                         <!-- Name -->
                         <div>
@@ -39,7 +39,7 @@
                         <!-- Price -->
                         <div>
                             <x-input-label for="price" :value="__('Price')" />
-                            <input type="number" name="price" id="cost" value="{{ old('price') }}" required
+                            <input type="number" name="price" id="price" value="{{ old('price') }}" required
                                 autocomplete="price"
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
@@ -56,6 +56,13 @@
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div>
+                            <x-input-label for="thumb" :value="__('Thumbnail')" />
+                            <input type="file" name="thumb" id="thumb" value="{{ old('thumb') }}" required
+                                accept="image/*"
+                                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <x-input-error :messages="$errors->get('thumb')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">

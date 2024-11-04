@@ -17,14 +17,13 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col pt-6 sm:pt-0 bg-fuchsia-200 dark:bg-gray-900">
+    <div class="min-h-screen flex flex-col pt-6 sm:pt-0 bg-rose-200 dark:bg-gray-900">
 
         <!-- Navigation -->
         @include('layouts.client-navigation')
 
         <!-- Page Content -->
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+        <div class="mx-8 mt-4 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>

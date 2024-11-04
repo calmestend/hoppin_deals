@@ -31,6 +31,7 @@
                                 <option value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
+                            <x-input-error :messages="$errors->get('product_id')" class="mt-2" />
                         </div>
 
                         <!-- Branch -->
@@ -45,6 +46,7 @@
                                     $branch->address->city->state->name }}</option>
                                 @endforeach
                             </select>
+                            <x-input-error :messages="$errors->get('branch_id')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end mt-4">

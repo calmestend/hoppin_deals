@@ -10,11 +10,10 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('wish_list_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('address_id')->constrained()->nullable()->default(null);
-            $table->string('rfc')->nullable()->default(null);
+            $table->foreignId('stock_id')->constrained();
+            $table->foreignId('wish_list_id')->constrained();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('wish_list_products');
     }
 };

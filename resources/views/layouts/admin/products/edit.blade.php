@@ -9,7 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('admin.products.update', $product->id) }}">
+                    <form method="POST" action="{{ route('admin.products.update', $product->id) }}"
+                        enctype="multipart/form-data">
                         @csrf
                         <!-- Name -->
                         <div>
@@ -61,6 +62,22 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="thumb" :value="__('Thumb')" />
+                            @if ($product->hasMedia('thumb'))
+                            <img src="{{ asset('storage/' . $product->getFirstMedia('thumb')->id . '/' . $product->getFirstMedia('thumb')->file_name) }}"
+                                alt="{{ $product->name }}" class="w-48 h-48 object-cover rounded-md mb-2">
+                            @else
+                            <span>No image available</span>
+                            @endif
+                            <input type="file" name="thumb" id="thumb" value="{{ old('thumb') }}" required
+                                accept="image/*"
+                                class="py-4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <x-input-error :messages="$errors->get('thumb')" class="mt-2" />
+                        </div>
+
+
 
                         <div class="flex items-center justify-end mt-4">
                             <button

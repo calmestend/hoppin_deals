@@ -42,6 +42,10 @@
                                         </th>
                                         <th
                                             class="px-4 py-2 border-rose-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-left">
+                                            Image
+                                        </th>
+                                        <th
+                                            class="px-4 py-2 border-rose-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-left">
                                             Cost
                                         </th>
                                         <th
@@ -74,6 +78,15 @@
                                         </td>
                                         <td
                                             class="px-4 py-2 border-rose-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                                            @if($product->hasMedia('thumb'))
+                                            <img src="{{ asset('storage/' . $product->getFirstMedia('thumb')->id . '/' . $product->getFirstMedia('thumb')->file_name) }}"
+                                                alt="{{ $product->name }}" class="w-24 h-24 object-cover rounded-md">
+                                            @else
+                                            <span>Image not Found</span>
+                                            @endif
+                                        </td>
+                                        <td
+                                            class="px-4 py-2 border-rose-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                                             {{ $product->cost }}
                                         </td>
                                         <td
@@ -81,7 +94,7 @@
                                             {{ $product->price }}
                                         </td>
                                         <td
-                                            class="px-4 py-2 border-rose-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-r-md flex space-x-2">
+                                            class="px-4 py-2 border-rose-200 items-center dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-r-md flex space-x-2">
                                             <form action="{{ route('admin.products.destroy', $product->id) }}"
                                                 method="post">
                                                 @csrf
