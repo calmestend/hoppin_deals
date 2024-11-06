@@ -2,92 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stock;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 
-class PaypalController extends Controller
+class PayPalController extends Controller
 {
-    public function index()
+    public function payment(Request $request)
     {
-        $cart = session()->get('cart', []);
-        $total = 0;
+        $total = $request->input('total');
 
-        // Calcular el total de la compra
-        foreach ($cart as $stockId => $item) {
-            $stock = Stock::findOrFail($stockId);
-            $total += $stock->product->price * $item['quantity'];
-        }
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        $paypalToken = $provider->getAccessToken();
 
-        return view('checkout', compact('total'));
-    }
-
-    private function getAccessToken(): string
-    {
-        $headers = [
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'Authorization' => 'Basic ' . base64_encode(config('paypal.client_id') . ':' . config('paypal.client_secret'))
-        ];
-
-        // Solicitar el token de acceso a PayPal
-        $response = Http::withHeaders($headers)
-            ->withBody('grant_type=client_credentials')
-            ->post(config('paypal.base_url') . '/v1/oauth2/token');
-
-        // Devolver el token de acceso
-        return json_decode($response->body())->access_token;
-    }
-
-    public function create(int $amount)
-    {
-        $id = uuid_create();
-
-        $headers = [
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getAccessToken(),
-            'PayPal-Request-Id' => $id,
-        ];
-
-        $body = [
+        $response = $provider->createOrder([
             "intent" => "CAPTURE",
+            "application_context" => [
+                "return_url" => route('paypal.payment.success'),
+                "cancel_url" => route('paypal.payment.cancel'),
+            ],
             "purchase_units" => [
-                [
-                    "reference_id" => $id,
+                0 => [
                     "amount" => [
-                        "currency_code" => config('paypal.currency'), // Usar la moneda desde la configuración
-                        "value" => number_format($amount, 2, '.', ''),
+                        "currency_code" => "MXN",
+                        "value" => $total
                     ]
                 ]
             ]
-        ];
+        ]);
 
-        // Crear la orden en PayPal
-        $response = Http::withHeaders($headers)
-            ->withBody(json_encode($body))
-            ->post(config('paypal.base_url') . '/v2/checkout/orders');
+        if (isset($response['id']) && $response['id'] != null) {
+            foreach ($response['links'] as $links) {
+                if ($links['rel'] == 'approve') {
+                    return redirect()->away($links['href']);
+                }
+            }
 
-        Session::put('request_id', $id);
-        Session::put('order_id', json_decode($response->body())->id);
-
-
-        return json_decode($response->body());
+            return redirect()
+                ->route('cancel.payment')
+                ->with('error', 'Something went wrong.');
+        } else {
+            return redirect()
+                ->route('create.payment')
+                ->with('error', $response['message'] ?? 'Something went wrong.');
+        }
     }
 
-    public function complete(Request $request, $orderId) // Cambia esto para recibir el orderId
+
+    public function paymentCancel()
     {
-        $url = config('paypal.base_url') . '/v2/checkout/orders/' . $orderId;
-
-        $headers = [
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getAccessToken(),
-        ];
-
-        $response = Http::withHeaders($headers)
-            ->post($url, null);
-
-        return json_decode($response->body());
+        return redirect()
+              ->route('client.shopping_cart')
+              ->with('error', $response['message'] ?? 'You have canceled the transaction.');
     }
 
+    public function paymentSuccess(Request $request)
+    {
+        $provider = new PayPalClient();
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+        $response = $provider->capturePaymentOrder($request['token']);
 
+        if (isset($response['status']) & $response['status'] == 'COMPLETED') {
+            return redirect()
+                ->route('client.shopping_cart')
+                ->with('success', 'Transaction complete.');
+        } else {
+            return redirect()
+                ->route('client.shopping_cart')
+                ->with('error', $response['message'] ?? 'Something went wrong.');
+        }
+    }
 }

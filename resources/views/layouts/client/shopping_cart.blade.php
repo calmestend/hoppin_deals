@@ -9,6 +9,17 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h1 class="text-2xl font-bold text-pink-600 mb-4">Wish List</h1>
+                @if ($message = Session::get('success'))
+                <div class="bg-green-200 text-yellow-800 p-4 rounded-lg mb-4">
+                    {{ $message }}
+                </div>
+                @endif
+
+                @if ($message = Session::get('error'))
+                <div class="bg-red-200 text-yellow-800 p-4 rounded-lg mb-4">
+                    {{ $message }}
+                </div>
+                @endif
 
                 @if($cartItems)
                 <table class="min-w-full bg-white">
@@ -51,13 +62,16 @@
                 </table>
                 <div class="pt-6">
                     <p class="pb-4">Total: ${{ $total }}</p>
-                    <form method="get" action="{{ route('client.checkout') }}">
+                    <form method="get" action="{{ route('paypal.payment') }}">
+                        @csrf
+                        <input type="hidden" name="total" value="{{ $total }}">
                         <button type="submit"
-                            class="transition ease-in-out bg-violet-300 hover:scale-105 hover:bg-violet-500 duration-225 px-4 py-2 rounded-md text-white">
-                            Buy Now
+                            class="transition ease-in-out bg-violet-400 hover:scale-105 hover:bg-violet-600 duration-225 px-4 py-2 rounded-md text-white">
+                            Pay With Paypal
                         </button>
                     </form>
                 </div>
+
                 @else
                 <h1>Shopping Cart Empty</h1>
                 @endif

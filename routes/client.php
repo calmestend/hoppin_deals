@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishListProductController;
+use App\Http\Controllers\PaypalController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:1'])->group(function () {
@@ -22,7 +22,7 @@ Route::middleware(['auth', 'role:1'])->group(function () {
     Route::post('client/shopping_cart', [ShoppingCartController::class, 'store'])->name('client.shopping_cart.store');
     Route::post('client/shopping_cart/{stock_id}', [ShoppingCartController::class, 'destroy'])->name('client.shopping_cart.destroy');
 
-    Route::get('client/checkout', [PaypalController::class, 'index'])->name('client.checkout');
-    Route::get('paypal/complete/{amount}', [PaypalController::class, 'create'])->name('client.checkout.create');
-    Route::post('client/checkout/complete', [PaypalController::class, 'complete'])->name('client.checkout.complete');
+    Route::get('paypal/payment', [PaypalController::class, 'payment'])->name('paypal.payment');
+    Route::get('paypal/payment/success', [PaypalController::class, 'paymentSuccess'])->name('paypal.payment.success');
+    Route::get('paypal/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('paypal.payment.cancel');
 });
