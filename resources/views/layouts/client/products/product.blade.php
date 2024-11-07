@@ -12,10 +12,9 @@
                 <img src="{{ asset('storage/' . $stock->product->getFirstMedia('thumb')->id . '/' . $stock->product->getFirstMedia('thumb')->file_name) }}"
                     alt="{{ $stock->product->name }}" class="w-64 h-full object-cover rounded-lg mb-4">
 
-                <p class="text-gray-800 text-lg mb-4">Precio: 💖 ${{ number_format($stock->product->price, 2) }} 💖</p>
+                <p class="text-gray-800 text-lg mb-4">Price: 💖 ${{ number_format($stock->product->price, 2) }} 💖</p>
                 <p class="text-gray-600 mb-6">{{ $stock->product->description }}</p>
 
-                <!-- Campo para mostrar el mensaje -->
                 @if(session('message'))
                 <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg mb-4">
                     {{ session('message') }}

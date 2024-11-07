@@ -8,7 +8,7 @@
     <div class="py-12 bg-rose-100">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h1 class="text-2xl font-bold text-pink-600 mb-4">Wish List</h1>
+                <h1 class="text-2xl font-bold text-pink-600 mb-4">Shopping Cart</h1>
                 @if ($message = Session::get('success'))
                 <div class="bg-green-200 text-yellow-800 p-4 rounded-lg mb-4">
                     {{ $message }}

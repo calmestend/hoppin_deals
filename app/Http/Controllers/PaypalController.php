@@ -64,9 +64,7 @@ class PayPalController extends Controller
         $response = $provider->capturePaymentOrder($request['token']);
 
         if (isset($response['status']) & $response['status'] == 'COMPLETED') {
-            return redirect()
-                ->route('client.shopping_cart')
-                ->with('success', 'Transaction complete.');
+            return CheckoutController::create();
         } else {
             return redirect()
                 ->route('client.shopping_cart')

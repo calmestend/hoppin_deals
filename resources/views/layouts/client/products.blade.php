@@ -7,9 +7,10 @@
 
     <div class="py-12 bg-rose-100">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-4xl text-center font-bold mb-8 text-rose-600">Productos</h1>
+            <h1 class="text-4xl text-center font-bold mb-8 text-rose-600">Products</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 @foreach($stocks as $stock)
+                @if($stock->quantity > 0)
                 <div
                     class="bg-pink-100 border border-pink-300 rounded-3xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300">
                     <div class="relative group">
@@ -19,7 +20,7 @@
                                 alt="{{ $stock->product->name }}" class="w-full h-56 object-cover rounded-t-3xl">
                             <div
                                 class="absolute inset-0 bg-pink-200 bg-opacity-80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-3xl">
-                                <span class="text-white font-semibold text-lg">✨ Más info ✨</span>
+                                <span class="text-white font-semibold text-lg">✨ View More ✨</span>
                             </div>
                         </a>
                         <div class="absolute bottom-0 w-full bg-white bg-opacity-90 p-4 rounded-b-3xl">
@@ -31,7 +32,7 @@
                         </p>
                     </div>
                 </div>
-
+                @endif
                 @endforeach
             </div>
         </div>

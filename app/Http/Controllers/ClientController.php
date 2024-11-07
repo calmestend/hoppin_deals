@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\Client;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -73,9 +75,10 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public static function createInvoiceData($address_id, $rfc)
     {
-        //
+        $client = Client::findOrFail(Auth::user()->client->id);
+        $client->update(['address_id' => $address_id, 'rfc' => $rfc]);
     }
 
     /**
