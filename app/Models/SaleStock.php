@@ -11,4 +11,9 @@ class SaleStock extends Model
         'stock_id',
         'quantity',
     ];
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class);
+    }
 }

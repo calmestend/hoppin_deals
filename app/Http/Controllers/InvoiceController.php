@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
-use App\Models\Stock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -30,9 +30,27 @@ class InvoiceController extends Controller
         ]);
 
         $cartItems = json_decode($request->input('cartItems'), true);
-        $rfc = $request->rfc;
 
-        $pdf = Pdf::loadView('pdf.invoice', compact('rfc', 'address', 'cartItems'));
+        $total = array_reduce($cartItems, function ($carry, $item) {
+            return $carry + $item['stock']['product']['price'] * $item['quantity'];
+        }, 0);
+
+        $subtotal = $total / 1.16;
+        $iva = $total - $subtotal;
+
+        $issuer = [
+            'name' => 'Hoppin\' Deals',
+            'rfc' => 'JBQ240426LS2'
+        ];
+
+        $receiver = [
+            'rfc' => $request->rfc,
+            'name' => Auth::user()->name,
+            'address' => $address,
+        ];
+
+
+        $pdf = Pdf::loadView('pdf.invoice', compact('issuer', 'receiver', 'cartItems', 'subtotal', 'iva', 'total'));
 
         return $pdf->download('invoice.pdf');
     }

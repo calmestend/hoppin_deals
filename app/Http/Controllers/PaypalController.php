@@ -63,7 +63,11 @@ class PayPalController extends Controller
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
 
-        if (isset($response['status']) & $response['status'] == 'COMPLETED') {
+        if (!isset($response['status'])) {
+            abort(404);
+        }
+
+        if ($response['status'] == 'COMPLETED') {
             return CheckoutController::create();
         } else {
             return redirect()

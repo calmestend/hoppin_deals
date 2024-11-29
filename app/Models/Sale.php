@@ -10,4 +10,19 @@ class Sale extends Model
         'client_id',
         'payment_id',
     ];
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function saleStocks()
+    {
+        return $this->hasMany(SaleStock::class);
+    }
 }

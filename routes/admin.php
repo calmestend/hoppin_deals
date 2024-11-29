@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisteredAdminController;
 use App\Http\Controllers\Auth\RegisteredClientController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,9 +15,9 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         return view('layouts.admin.dashboard');
     })->name('admin.dashboard');
 
-    Route::get('admin/users', function () {
-        return view('layouts.admin.users');
-    })->name('admin.users');
+    // User
+    Route::get('admin/users', [AdminController::class, 'index'])->name('admin.users');
+    Route::post('admin/admins/{id}/destroy', [AdminController::class, 'destroy'])->name('admin.admins.destroy');
 
     Route::get('admin/users/admin-register', [RegisteredAdminController::class, 'create'])->name('admin.users.register.admin');
     Route::post('admin/users/admin-register', [RegisteredAdminController::class, 'store'])->name('admin.register');
@@ -54,4 +56,10 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::post('admin/stocks/{id}/destroy', [StockController::class, 'destroy'])->name('admin.stocks.destroy');
     Route::post('admin/stocks/{id}/edit', [StockController::class, 'edit'])->name('admin.stocks.edit');
     Route::post('admin/stocks/{id}/update', [StockController::class, 'update'])->name('admin.stocks.update');
+
+    // Sales
+    Route::get('admin/sales/', [SaleController::class, 'index'])->name('admin.sales');
+    Route::get('admin/sale/{id}', [SaleController::class, 'show'])->name('admin.sales.show');
+    Route::get('admin/sales/branch/', [SaleController::class, 'salesBranch'])->name('admin.sales.branch');
+    Route::post('admin/sales/client/', [SaleController::class, 'salesClient'])->name('admin.sales.client');
 });

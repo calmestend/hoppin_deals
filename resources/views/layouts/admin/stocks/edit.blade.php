@@ -13,7 +13,7 @@
                         <!-- Quantity -->
                         <div>
                             <x-input-label for="quantity" :value="__('Quantity')" />
-                            <input type="number" name="quantity" id="quantity"
+                            <input min="0" type="number" name="quantity" id="quantity"
                                 value="{{ old('quantity', $stock->quantity) }}" required autocomplete="quantity"
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <x-input-error :messages="$errors->get('quantity')" class="mt-2" />

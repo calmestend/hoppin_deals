@@ -39,8 +39,10 @@
                             class="transition ease-in-out bg-violet-300 hover:scale-105 hover:bg-violet-500 duration-225 px-4 py-2 rounded-md text-white">
                             Add to Shopping Cart
                         </button>
-                        <x-input-error :messages="$errors->get('stock_id')" class="mt-2" />
-                        <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
+                        <div>
+                            <x-input-error :messages="$errors->get('stock_id')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
+                        </div>
                     </form>
                 </div>
             </div>

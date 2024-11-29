@@ -41,9 +41,6 @@ class ShoppingCartController extends Controller
         return redirect()->back()->with('message', 'Product removed successfully');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -55,24 +52,44 @@ class ShoppingCartController extends Controller
 
         if (isset($cart[$stock->id])) {
             $request->validate([
-                'quantity' => ['required', 'integer', 'max:' . $stock->quantity - $cart[$stock->id]['quantity'], 'min:1']
+                'quantity' => [
+                    'required',
+                    'integer',
+                    'max:' . ($stock->quantity - $cart[$stock->id]['quantity']),
+                    'min:1'
+                ]
+            ], [
+                'quantity.required' => 'Please provide a quantity.',
+                'quantity.integer' => 'Quantity must be a valid integer.',
+                'quantity.max' => 'The quantity cannot exceed the available stock minus the quantity already in the cart.',
+                'quantity.min' => 'The minimum quantity is 1.',
             ]);
+
             $cart[$stock->id]['quantity'] += $request->quantity;
             session()->put('cart', $cart);
             return redirect()->back()->with('message', 'Product added successfully, product name: ' . $stock->product->name . ' quantity in cart: ' . $cart[$stock->id]['quantity']);
         }
 
         $request->validate([
-            'quantity' => ['required', 'integer', 'max:' . $stock->quantity, 'min:1']
+            'quantity' => [
+                'required',
+                'integer',
+                'max:' . $stock->quantity,
+                'min:1'
+            ]
+        ], [
+            'quantity.required' => 'Please provide a quantity.',
+            'quantity.integer' => 'Quantity must be a valid integer.',
+            'quantity.max' => 'The quantity cannot exceed the available stock.',
+            'quantity.min' => 'The minimum quantity is 1.',
         ]);
 
-        $cart[$stock->id] = [ 'quantity' => (int) $request->quantity ];
-
+        $cart[$stock->id] = ['quantity' => (int) $request->quantity];
         session()->put('cart', $cart);
-
 
         return redirect()->back()->with('message', 'Product added successfully, product name: ' . $stock->product->name . ' quantity in cart: ' . $cart[$stock->id]['quantity']);
     }
+
 
     /**
      * Store a newly created resource in storage.

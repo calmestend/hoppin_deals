@@ -32,7 +32,7 @@
                         <!-- Cost -->
                         <div>
                             <x-input-label for="cost" :value="__('Cost')" />
-                            <input type="number" name="cost" id="cost" value="{{ old('cost', $product->cost) }}"
+                            <input type="number" min="1" name="cost" id="cost" value="{{ old('cost', $product->cost) }}"
                                 required autocomplete="cost"
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <x-input-error :messages="$errors->get('cost')" class="mt-2" />
@@ -41,8 +41,8 @@
                         <!-- Price -->
                         <div>
                             <x-input-label for="price" :value="__('Price')" />
-                            <input type="number" name="price" id="cost" value="{{ old('price', $product->price) }}"
-                                required autocomplete="price"
+                            <input type="number" min="1" name="price" id="price"
+                                value="{{ old('price', $product->price) }}" required autocomplete="price"
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>

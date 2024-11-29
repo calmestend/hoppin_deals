@@ -78,8 +78,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            "category_id" => [ "required" ],
+            "name" => [ "required", "string", "max:255"  ],
+            "description" => [ "required", "string", "max:255" ],
+            "thumb" => ['required', 'image'],
+            "cost" => [ "required", "integer", "max:99999", "min:1" ],
+            "price" => [ "required", "integer", "max:99999", "min:1" ],
+        ]);
+
         $product = Product::findOrFail($id);
-        $product->update($request->only(['category_id', 'name', 'description', 'cost', 'price']));
+        $product->update([
+            "category_id" => $request->category_id,
+            "name" => $request->name,
+            "description" => $request->description,
+            "thumb" => $request->thumb,
+            "cost" => $request->cost,
+            "price" => $request->price
+        ]);
 
         if ($request->hasFile('thumb') && $product->hasMedia('thumb')) {
             $product->clearMediaCollection('thumb');

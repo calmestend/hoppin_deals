@@ -35,6 +35,11 @@
                         class="text-pink-600 dark:text-pink-200 font-semibold">
                         {{ __('Stocks') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('admin.sales')" :active="request()->routeIs('admin.sales')"
+                        class="text-pink-600 dark:text-pink-200 font-semibold">
+                        {{ __('Sales') }}
+                    </x-nav-link>
                 </div>
             </div>
             <div class="hidden sm:flex sm:items-center sm:space-x-4">
@@ -53,9 +58,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')" class="text-pink-500 dark:text-pink-300">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
